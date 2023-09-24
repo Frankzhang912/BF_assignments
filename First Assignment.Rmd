@@ -1,0 +1,95 @@
+---
+title: "Assignment 1"
+author: "Guijiu Zhang"
+date: "2023-09-23"
+output: html_document
+---
+# Add Header Row
+```{r}
+library(readxl)
+Typical_Employee_Survey_Data<-read_excel("C:/Users/guiji/Desktop/BF/Typical_Employee_Survey_Data.xlsx", col_names = FALSE)
+View(Typical_Employee_Survey_Data)
+mydataset <- Typical_Employee_Survey_Data
+names(mydataset)=c("age","gender","satisfaction","job char","year being employed","likeli of promotion","allowance to take part in decision making","participation in budgetary decisions","organization proudness","turn down another job for more pay to stay","relations between coworkers and colleagues")
+View(mydataset)
+```
+# The 5-point summary and boxplot for each column
+```{r}
+fivenum(mydataset$age)
+fivenum(mydataset$gender)
+fivenum(mydataset$satisfaction)
+fivenum(mydataset$`job char`)
+fivenum(mydataset$`year being employed`)
+fivenum(mydataset$`likeli of promotion`)
+fivenum(mydataset$`allowance to take part in decision making`)
+fivenum(mydataset$`participation in budgetary decisions`)
+fivenum(mydataset$`organization proudness`)
+fivenum(mydataset$`turn down another job for more pay to stay`)
+fivenum(mydataset$`relations between coworkers and colleagues`)
+boxplot(mydataset$age)
+boxplot(mydataset$gender)
+boxplot(mydataset$satisfaction)
+boxplot(mydataset$`job char`)
+boxplot(mydataset$`year being employed`)
+boxplot(mydataset$`likeli of promotion`)
+boxplot(mydataset$`allowance to take part in decision making`)
+boxplot(mydataset$`participation in budgetary decisions`)
+boxplot(mydataset$`organization proudness`)
+boxplot(mydataset$`turn down another job for more pay to stay`)
+boxplot(mydataset$`relations between coworkers and colleagues`)
+```
+# Convert the columns that need to be converted to Factors
+```{r}
+mydataset$gender<-factor(mydataset$gender,levels=c(1,2),labels=c("male","female"))
+mydataset$satisfaction<-factor(mydataset$satisfaction,levels=c(1,2,3,4),labels = c("very satisfied","moderately satisfied","a little dissatisfied","very dissatisfied"))
+mydataset$`job char`<-factor(mydataset$`job char`,levels = c(1,2,3,4,5),labels = c("high income","no danger of being fired","flexible hours","opportunities for advancement","enjoying the work"))
+mydataset$`likeli of promotion`<-factor(mydataset$`likeli of promotion`,levels = c(1,2,3,4,5),labels = c("very likely","likely","not sure","unlikely","very unlikely"))
+mydataset$`allowance to take part in decision making`<-factor(mydataset$`allowance to take part in decision making`,levels = c(1,2,3,4),labels = c("always","much of the time","sometimes","never"))
+mydataset$`participation in budgetary decisions`<-factor(mydataset$`participation in budgetary decisions`,levels = c(1,2),labels = c("yes","no"))
+mydataset$`organization proudness`<-factor(mydataset$`organization proudness`,levels = c(1,2,3,4),labels = c("very proud","somewhat proud","indifferent","not at all proud"))
+mydataset$`turn down another job for more pay to stay`<-factor(mydataset$`turn down another job for more pay to stay`,levels = c(1,2,3,4,5),labels = c("very likely","likely","not sure","unlikely","very unlikely"))
+mydataset$`relations between coworkers and colleagues`<-factor(mydataset$`relations between coworkers and colleagues`,levels = c(1,2,3,4,5),labels = c("very good","good","so so","bad","very bad"))
+```
+# Plot the right visual for each column
+```{r}
+plot(mydataset$age,main="Age of People",xlab="employer index",ylab = "Age",col="blue")
+
+countgender<-table(mydataset$gender)
+pie(countgender,main = "Gender",)
+
+countsatisfaction<-table(mydataset$satisfaction)
+barplot(countsatisfaction,main = "satisfaction")
+
+countjobchar<-table(mydataset$`job char`)
+barplot(countjobchar,main = "job characteristics")
+
+plot(mydataset$`year being employed`)
+
+countpromotion<-table(mydataset$`likeli of promotion`)
+barplot(countpromotion,main="Likelihood of Promotion")
+
+countdecisionmaking<-table(mydataset$`allowance to take part in decision making`)
+barplot(countdecisionmaking,main="Allowance to take part in decision making")
+
+countbudgetarydecisions<-table(mydataset$`participation in budgetary decisions`)
+pie(countbudgetarydecisions,main="Participation in budgetary decisions")
+
+countproudness<-table(mydataset$`organization proudness`)
+barplot(countproudness,main="How proud do employees feel about the company")
+
+countstay<-table(mydataset$`turn down another job for more pay to stay`)
+barplot(countstay,main="Turn down another job for more pay to stay")
+
+countrelations<-table(mydataset$`relations between coworkers and colleagues`)
+barplot(countrelations,main="Relations between coworkers and colleagues")
+```
+# Plot scatter plots to show few relationships
+```{r}
+plot(mydataset$age,mydataset$`year being employed`,main = "Relationship between age and years of work",xlab = "Age",ylab = "Years of work")
+
+plot(x=mydataset$`year being employed`,y=mydataset$`turn down another job for more pay to stay`,main = "Relationship between years of work and loyalty",xlab = "Years of work",ylab = "Loyalty")
+
+plot(x=as.numeric(mydataset$satisfaction),y=as.numeric(mydataset$`job char`),main = "Relationship between satisfaction and job characteristics",xlab = "Satisfaction",ylab = "Job characteristics")
+
+```
+
